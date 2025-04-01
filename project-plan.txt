@@ -1,0 +1,22 @@
+Dynamic Blog Website Project Plan
+
+1. Project Structure:
+   - index.html: Homepage to display a list of blog posts.
+   - new-post.html: Page to create a new blog post with a form.
+   - post.html: Page to view, edit, and delete a specific blog post.
+   - styles.css: CSS file for responsive styling.
+   - scripts.js: JavaScript file to handle CRUD operations using local storage.
+
+2. Functionality:
+   - CRUD Operations: Create, read, update, and delete blog posts.
+   - Local Storage: Store blog posts in the browser's local storage.
+   - Responsive Design: Ensure the website is usable on mobile, tablet, and desktop devices.
+
+3. Development Plan:
+   - Part 1: Set up repository and project structure.
+   - Part 2: Build homepage to list blog posts.
+   - Part 3: Implement create post functionality.
+   - Part 4: Add view and edit functionality for posts.
+   - Part 5: Add delete functionality and test the application.
+   - Bonus: Enhance with responsive styling.
+   
