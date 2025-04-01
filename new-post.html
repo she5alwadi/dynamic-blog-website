@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Blog - Create New Post</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Dynamic Blog</h1>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Create a New Post</h2>
+        <form id="post-form">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="5" required></textarea>
+            
+            <button type="submit">Save Post</button>
+        </form>
+    </main>
+    <script src="scripts.js"></script>
+    <script>
+        
+        document.getElementById('post-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+
+            if (!title || !content) {
+                alert('Title and content are required!');
+                return;
+            }
+
+            const posts = getPosts();
+            const newPost = {
+                title: title,
+                content: content,
+                date: new Date().toISOString()
+            };
+            posts.push(newPost);
+            savePosts(posts);
+
+            alert('Post created successfully!');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
