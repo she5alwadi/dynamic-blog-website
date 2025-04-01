@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Blog - View Post</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Dynamic Blog</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="new-post.html">Create New Post</a>
+        </nav>
+    </header>
+    <main>
+        <h2 id="post-title"></h2>
+        <p id="post-date"></p>
+        <p id="post-content"></p>
+        <button onclick="enableEdit()">Edit Post</button>
+        <form id="edit-form" style="display: none;">
+            <label for="edit-title">Title:</label>
+            <input type="text" id="edit-title" name="edit-title" required>
+            
+            <label for="edit-content">Content:</label>
+            <textarea id="edit-content" name="edit-content" rows="5" required></textarea>
+            
+            <button type="submit">Save Changes</button>
+            <button type="button" onclick="cancelEdit()">Cancel</button>
+        </form>
+    </main>
+    <script src="scripts.js"></script>
+    <script>
+        let currentPostId;
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentPostId = parseInt(urlParams.get('id'));
+            loadPost(currentPostId);
+        });
+
+        
+        function loadPost(id) {
+            const posts = getPosts();
+            const post = posts[id];
+            if (!post) {
+                document.querySelector('main').innerHTML = '<p>Post not found.</p>';
+                return;
+            }
+
+            document.getElementById('post-title').textContent = post.title;
+            document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString();
+            document.getElementById('post-content').textContent = post.content;
+        }
+
+        
+        function enableEdit() {
+            const posts = getPosts();
+            const post = posts[currentPostId];
+            document.getElementById('edit-title').value = post.title;
+            document.getElementById('edit-content').value = post.content;
+            document.getElementById('edit-form').style.display = 'block';
+            document.getElementById('post-title').style.display = 'none';
+            document.getElementById('post-content').style.display = 'none';
+        }
+
+        
+        function cancelEdit() {
+            document.getElementById('edit-form').style.display = 'none';
+            document.getElementById('post-title').style.display = 'block';
+            document.getElementById('post-content').style.display = 'block';
+        }
+
+        
+        document.getElementById('edit-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('edit-title').value.trim();
+            const content = document.getElementById('edit-content').value.trim();
+
+            if (!title || !content) {
+                alert('Title and content are required!');
+                return;
+            }
+
+            const posts = getPosts();
+            posts[currentPostId] = {
+                title: title,
+                content: content,
+                date: posts[currentPostId].date
+            };
+            savePosts(posts);
+
+            alert('Post updated successfully!');
+            loadPost(currentPostId);
+            cancelEdit();
+        });
+    </script>
+</body>
+</html>
